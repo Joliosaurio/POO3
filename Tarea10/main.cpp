@@ -9,7 +9,6 @@ class Graph
 {
 	int V; 
 
-
 	list<int> *adj;
 public:
 	Graph(int V); 
@@ -17,7 +16,8 @@ public:
 				  
 	void addEdge(int v, int w);
 
-	
+	void DFSUtil(int v, bool visited[]);
+	void DFS(int v);
 	void BFS(int s);
 };
 
@@ -67,6 +67,35 @@ void Graph::BFS(int s)
 }
 
 
+void Graph::DFSUtil(int v, bool visited[])
+{
+	// Mark the current node as visited and
+	// print it
+	visited[v] = true;
+	cout << v << " ";
+
+	// Recur for all the vertices adjacent
+	// to this vertex
+	list<int>::iterator i;
+	for (i = adj[v].begin(); i != adj[v].end(); ++i)
+		if (!visited[*i])
+			DFSUtil(*i, visited);
+}
+
+
+void Graph::DFS(int v)
+{
+	
+	bool *visited = new bool[V];
+	for (int i = 0; i < V; i++)
+		visited[i] = false;
+
+	DFSUtil(v, visited);
+}
+
+
+
+
 int main()
 {
 
@@ -78,9 +107,15 @@ int main()
 	grafo.addEdge(3, 3);
 	grafo.addEdge(2, 3);
 
-	cout << "Bts:  "
-		<< "(starting from vertex 2) \n";
-	grafo.BFS(2);
+	//cout << "Bts:  "
+	//	<< "(start: 2) \n";
+	//grafo.BFS(2);
+
+	cout << "dfs:  "
+		<< "(start : 2) \n";
+	grafo.DFS(2);
+
+
 
 	return 0;
 }
